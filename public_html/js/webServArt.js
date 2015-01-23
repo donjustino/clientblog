@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 var getData = function() {  
     $.ajax({  
-        url: "http://localhost:8080/Blog/resources/utilisateur.entities.utilisateur/",  
+        url: "http://localhost:8080/Blog/resources/article.entities.article",  
                 type: "GET",  
         headers: {  
             Accept: "application/json"  
@@ -12,11 +12,11 @@ var getData = function() {
     }).success(function(data, status, jq) {  
    //Cette fonction indique à knockout d'appliquer les données aux éléments de la page   
     //Elle est toujours appelée quand les données sont pretes et est appelée qu'une fois   
-    if(data.status)      
-     ko.applyBindings(new ViewModelLivre(data.data));  
-    else{  
-        alert("test")
-        //alert(data.message)  
+    if(status){      
+        ko.applyBindings(new ViewModelArticle(data));  
+    }
+        else{  
+          //alert(data.message)  
         }  
     }).error(function(jq, status, error) {  
         $(".error").text(JSON.stringify(status + " " + error));  
