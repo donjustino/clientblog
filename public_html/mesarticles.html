@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>YouBlog</title>
@@ -14,8 +9,8 @@ and open the template in the editor.
         <script type='text/javascript' src='js/webServArt.js'></script>     
         <script type='text/javascript' src='js/article.js'></script>
     </head>
-   <body>
-    <div class="well">
+    <body>
+          <div class="well">
       <h3>
         YouBlog
       </h3>
@@ -27,39 +22,41 @@ and open the template in the editor.
       <a href="#" class="btn btn-warning">Recherche un article</a>
       <a href="#" class="btn btn-danger">Mon compte</a>
     </div>
- 
-    <table  class="table table-striped">  
-              
+
+        <div id="main" class="container">
+
+           
+
+        </div>
+        
+         <div >  
+            <table  class="table table-striped">  
+                <tr>  
+                    <th>Titre</th>  
+                    <th>Mot clef</th> 
+                    <th>Article</th>
+                    <th>Actions</th>
+                </tr>  
                 <tbody data-bind="foreach: articles">  
                     <tr>  
                         <td>
-                            
-                           
-                            
-                                
-                                
-                            
-                            
-                            <div class="container">
-     
-      <div class="form-group">
-          <label class="col-md-4 control-label" data-bind='text: title' > </label>
-        <textarea class="form-control" data-bind='text: content' style="margin: 0px -1px 0px 0px; height: 223px; width: 1140px;"></textarea>
-        <span class="label label-default"  data-bind='text: keyword'></span>
-        <div class="form-group">
-        </div>
-      </div>
-    </div>
-                            
-                            
-                            
-                            
-                            
+                            <label class="col-md-4 control-label" data-bind='text: title' > </label>
                         </td>
-                   
+                        <td>
+                            <label class="col-md-4 control-label" data-bind='text: keyword' />
+                        </td>
+                        <td >
+                            <label class="col-md-4 control-label" data-bind='text: content' />  
+                        </td>
+                           <td>
+                            <button class="btn btn-primary" data-bind="click: updated"/>Modifier</button>
+                            <button class="btn btn-danger" data-bind="click: removed">Supprimer</button>  
+                        </td>
                     </tr>  
                 </tbody>    
 
             </table>  
-  </body>
+        </div>  
+        
+    </body>
 </html>

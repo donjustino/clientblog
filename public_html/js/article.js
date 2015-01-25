@@ -3,6 +3,12 @@ var art = function (article) {
     this.title = ko.observable(article.title);
     this.keyword = ko.observable(article.keyword);
     this.content = ko.observable(article.content);
+    
+};
+var com = function (commentaire) {
+    //this.title = ko.observable(article.title);
+    //this.keyword = ko.observable(article.keyword);
+    this.contentcom = ko.observable(commentaire.commentaire);
 };
 var ViewModelArticle = function (articles) {
    
@@ -14,6 +20,18 @@ var ViewModelArticle = function (articles) {
         return new art(article);
     }));
 };
+
+var ViewModelCommentaire = function (commentaires) {
+   
+    //représente la liste des catégories  
+    //La fonction prend la réponse obtenue du serveur en paramètre  
+    //Ici nous supposons que vous avez chargé la liste des catégories  
+    //ko.utils.arrayMap itère sur la collection et pour chaque objet trouvé, elle crée une instance de categorie   
+    self.commentaires = ko.observableArray(ko.utils.arrayMap(commentaires, function (commentaire) {
+        return new com(commentaire);
+    }));
+};
+
 
 self.added = function (article) {
     var title = document.getElementById("titre").value;
@@ -53,7 +71,7 @@ self.updated = function (article) {
         }
     })
             .success(function (data, status, jq) {
-
+                  
             })
             .error(function (jq, status, error) {
                 $(".error").text(JSON.stringify(status + " " + error));
@@ -63,9 +81,9 @@ self.updated = function (article) {
 
 
 self.removed = function (article) {
-    self.articles.remove(article);
+   self.articles.remove(article);
     $.ajax({
-        url: "http://localhost:8080/Blog/resources/article.entities.article" + article.id(),
+        url: "http://localhost:8080/Blog/resources/article.entities.article/" + article.id(),
         type: "DELETE",
         contentType: "application/json",
         headers: {
@@ -73,10 +91,10 @@ self.removed = function (article) {
         }
     })
             .success(function (data, status, jq) {
-
-          
+                  
+                
             })
             .error(function (jq, status, error) {
-             
+                alert("ok");
             });
 };
