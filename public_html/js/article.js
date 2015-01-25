@@ -3,13 +3,12 @@ var art = function (article) {
     this.title = ko.observable(article.title);
     this.keyword = ko.observable(article.keyword);
     this.content = ko.observable(article.content);
+    this.ecritpar = ko.observable(article.ecritpar.username);
+    //this.comments = ko.observable(article.comments.comment);
     
+
 };
-var com = function (commentaire) {
-    //this.title = ko.observable(article.title);
-    //this.keyword = ko.observable(article.keyword);
-    this.contentcom = ko.observable(commentaire.commentaire);
-};
+
 var ViewModelArticle = function (articles) {
    
     //représente la liste des catégories  
@@ -21,16 +20,6 @@ var ViewModelArticle = function (articles) {
     }));
 };
 
-var ViewModelCommentaire = function (commentaires) {
-   
-    //représente la liste des catégories  
-    //La fonction prend la réponse obtenue du serveur en paramètre  
-    //Ici nous supposons que vous avez chargé la liste des catégories  
-    //ko.utils.arrayMap itère sur la collection et pour chaque objet trouvé, elle crée une instance de categorie   
-    self.commentaires = ko.observableArray(ko.utils.arrayMap(commentaires, function (commentaire) {
-        return new com(commentaire);
-    }));
-};
 
 
 self.added = function (article) {
