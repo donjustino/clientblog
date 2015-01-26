@@ -31,13 +31,22 @@ self.added = function (article) {
         "keyword": keyword,
         "content": content
      };
+     var cook = getCookie("utilisateur");
+     alert(cook);
     
     $.ajax({
         url: "http://localhost:8080/Blog/resources/article.entities.article",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(JSONObject),
-        dataType: 'JSON'
+        dataType: 'JSON',
+        xhrFields: {
+           withCredentials: false
+        },
+        crossDomain: true,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Users", cook);
+        },
     })
             .success(function (data) {
                 alert("ok");
@@ -87,3 +96,20 @@ self.removed = function (article) {
                 alert("ok");
             });
 };
+
+function getCookie(sName) {
+                var cookContent = document.cookie, cookEnd, i, j;
+                var sName = sName + "=";
+
+                for (i = 0, c = cookContent.length; i < c; i++) {
+                    j = i + sName.length;
+                    if (cookContent.substring(i, j) == sName) {
+                        cookEnd = cookContent.indexOf(";", j);
+                        if (cookEnd == -1) {
+                            cookEnd = cookContent.length;
+                        }
+                        return decodeURIComponent(cookContent.substring(j, cookEnd));
+                    }
+                }
+                return null;
+            }
