@@ -14,49 +14,40 @@ and open the template in the editor.
         <script type='text/javascript' src='js/webServArt.js'></script>     
         <script type='text/javascript' src='js/article.js'></script>
     </head>
-   <body>
-    <div class="well">
-      <h3>
-        YouBlog
-      </h3>
-      <p>
-        This is you.
-      </p>
-      <a href="#" class="btn btn-success">Ecrire un nouvelle article</a>
-      <a href="#" class="btn btn-info">Mes articles</a>
-      <a href="#" class="btn btn-warning">Recherche un article</a>
-      <a href="#" class="btn btn-danger">Mon compte</a>
-    </div>
- 
-    <table  class="table table-striped">  
-              
-                <tbody data-bind="foreach: articles">  
-                    <tr>  
-                        <td>    
-                            <div class="container">
-     
-      <div class="form-group">
-          <label class="col-md-4 control-label" data-bind='text: title' > </label>
-        <textarea class="form-control" data-bind='text: content' style="margin: 0px -1px 0px 0px; height: 223px; width: 1140px;"></textarea>
-        <span class="label label-default"  data-bind='text: keyword'></span>
-        <label>Ecrit par :</label>
-         <label class="col-md-4 control-label" data-bind='text: ecritpar' ></label>
-         <label>Commentaire :</label>
-         <label class="col-md-4 control-label" data-bind='text: comments' ></label>
-        <div class="form-group">
+    <body>
+        <div class="well">
+            <h3>
+                YouBlog
+            </h3>
+            <p>
+                This is you.
+            </p>
+            <a href="#" class="btn btn-success">Ecrire un nouvelle article</a>
+            <a href="#" class="btn btn-info">Mes articles</a>
+            <a href="#" class="btn btn-warning">Recherche un article</a>
+            <a href="#" class="btn btn-danger">Mon compte</a>
         </div>
-      </div>
-    </div>      
-                        </td>
-                   
-                    </tr>  
-                </tbody>  
-                <td>
-                    
-                    
-                     
-                </td>
 
-            </table>  
-  </body>
+        <table  class="table table-striped">  
+
+            <tbody data-bind="foreach: articles">  
+                <tr>  
+                    <td>    
+                        <div class="container">
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" data-bind='text: title' > </label>
+                                <textarea class="form-control" data-bind='text: content' style="margin: 0px -1px 0px 0px; height: 223px; width: 1140px;"></textarea>
+                                <span class="label label-default"  data-bind='text: keyword'></span>
+                                <label>Ecrit par :</label>
+                                <label class="col-md-4 control-label" data-bind='text: ecritpar' ></label>
+                                <label>Commentaire :</label>
+                                
+                            </div>
+                        </div>      
+                    </td>
+                </tr>  
+            </tbody>  
+        </table>  
+    </body>
 </html>
