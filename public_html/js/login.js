@@ -11,24 +11,23 @@ var ViewModelUtilisateur = function (utilisateurs) {
     //Ici nous supposons que vous avez chargé la liste des catégories  
     //ko.utils.arrayMap itère sur la collection et pour chaque objet trouvé, elle crée une instance de categorie   
     self.utilisateurs = ko.observableArray(ko.utils.arrayMap(utilisateurs, function (utilisateur) {
-        return new art(utilisateur);
+        return new usr(utilisateur);
     }));
 };
 
 self.send = function (article) {
-    alert("je rentre");
-    var login = document.getElementById("login").value;
+    var login = document.getElementById("user").value;
     var password = document.getElementById("password").value;
     var JSONObject = {
         "login": login,
         "password": password
      };
      var cook = getCookie("utilisateur");
-     alert(cook);
+     alert(login);
     
     $.ajax({
-        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users",
-        type: "GET",
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/" + login + "/" +password +"",
+        type: "POST",
         contentType: "application/json",
         data: JSON.stringify(JSONObject),
         dataType: 'JSON',
@@ -41,7 +40,14 @@ self.send = function (article) {
         },
     })
             .success(function (data) {
-                alert(data);
+                if(data == true){
+                     alert("Vous êtes connecté !!"); 
+                    setCookie("utilisateur", login);
+                    
+                }
+                else{
+                     alert("Utilisateur inconnu, ou mauvais mot de passe"); 
+                }
               
 
             })
@@ -51,18 +57,6 @@ self.send = function (article) {
 
 };
 
-function init() {
-    if (navigator.cookieEnabled) {
-        // Cookies acceptés
-    } else {
-        alert("Activez vos cookies !");
-    }
-
-    setCookie("utilisateur", "justinm");
-    console.log(getCookie("utilisateur"));
-    alert(getCookie("utilisateur"));
-
-}
 
 function setCookie(sName, sValue) {
     var today = new Date(), expires = new Date();
