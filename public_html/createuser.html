@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>YouBlog</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <script type='text/javascript' src="js/knockout/knockout-min.js"></script>  
+        <script type='text/javascript' src="js/jquery/jquery.js"></script> 
+        <script type='text/javascript' src='js/webServArt.js'></script>     
+        <script type='text/javascript' src='js/article.js'></script>
+        <script type='text/javascript' src='js/login.js'></script>
+        <script type='text/javascript' src='js/WebServLogin.js'></script>
+    </head>
+    <body>
+        <div class="well" id="well">
+            <h3>
+                YouBlog
+            </h3>
+            <p>
+            <div id="log"> </div>
+                <script> 
+                var cook = getCookie("utilisateur");
+                if(cook == null){
+                    document.getElementById("log").innerHTML = "Bonjour, visiteur";
+                }
+                else{
+                    document.getElementById("log").innerHTML = "Bonjour, " + cook + " ";
+                }
+                </script>
+            </p>
+            <a href="index.html" class="btn btn-success">Accueil</a>
+            <a href="#" class="btn btn-success" data-bind="click: write">Ecrire un nouvelle article</a>
+            <a href="#" class="btn btn-info" data-bind="click: myarticle">Mes articles</a>
+            <a href="#" class="btn btn-warning">Recherche un article</a>
+            <a href="#" class="btn btn-danger">Mon compte</a>
+            <script>
+                var cook = getCookie("utilisateur");
+                if (cook == null){
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML  + "<a href=\"#\" class=\"btn btn-danger\">Connexion</a> <a href=\"#\" class=\"btn btn-danger\">Créer un compte</a>";
+                }
+                else{
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML  + "<a href=\"#\" class=\"btn btn-danger\">Deconnexion</a>";
+                }
+            </script> 
+        </div>
+    
+         <form class="form-horizontal" >
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="content">Nom :</label>
+                <div class="col-md-4">
+                    <input id="nom" name="nom" type="text" class="form-control input-sm">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="content">Prenom :</label>
+                <div class="col-md-4">
+                    <input id="prenom" name="prenom" type="text" class="form-control input-sm">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="content">Nom d'utilisateur :</label>
+                <div class="col-md-4">
+                    <input id="login" name="login" type="text" class="form-control input-sm">
+                </div>
+            </div>
+             
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="content">Mot de passe :</label>
+                <div class="col-md-4">
+                    <input id="password" name="password" type="text" class="form-control input-sm">
+                </div>
+            </div>
+             
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="content">A propos :</label>
+                <div class="col-md-4">
+                    <input id="apropos" name="apropos" type="text" class="form-control input-sm">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" ></label>
+                <div class="col-md-4">
+                    <center><button class="btn btn-success" data-bind="click: adduser"/>Ajouter</button></center>
+                    <span></span>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>

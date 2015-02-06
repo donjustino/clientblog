@@ -1,7 +1,10 @@
 var self = this;
 var usr = function (utilisateur) {
-    this.login = ko.observable(utilisateur.title);
-    this.password = ko.observable(utilisateur.keyword);
+    this.login = ko.observable(utilisateur.username);
+    this.password = ko.observable(utilisateur.password);
+    this.nom = ko.observable(utilisateur.lastname);
+    this.prenom = ko.observable(utilisateur.firstname);
+    this.apropos = ko.observable(utilisateur.about);
 };
 
 var ViewModelUtilisateur = function (utilisateurs) {
@@ -15,6 +18,37 @@ var ViewModelUtilisateur = function (utilisateurs) {
     }));
 };
 
+self.adduser = function(utilisateur){
+    var lastname = document.getElementById("nom").value;
+    var firstname = document.getElementById("prenom").value;
+    var login = document.getElementById("login").value;
+    var password = document.getElementById("password").value;
+    var about = document.getElementById("apropos").value;
+    var JSONObject = {
+        "firstname": firstname,
+        "lastname": lastname,
+        "username": login,
+        "password": password,
+        "about":about
+     };
+      $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(JSONObject),
+        dataType: 'JSON'
+    })
+            .success(function (data) {
+                setCookie("utilisateur", login);
+                alert("Votre compte à été créer avec succès... redirection...");
+                document.location.href="index.html";
+
+            })
+            .error(function (jq, status, error) {
+                $(".error").text(JSON.stringify(status + " " + error));
+            });
+
+}
 self.send = function (article) {
     var login = document.getElementById("user").value;
     var password = document.getElementById("password").value;
