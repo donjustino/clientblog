@@ -10,26 +10,26 @@
         <script type='text/javascript' src='js/article.js'></script>
     </head>
     <body>
-          <div class="well">
-      <h3>
-        YouBlog
-      </h3>
-      <p>
-        This is you.
-      </p>
-      <a href="#" class="btn btn-success">Ecrire un nouvelle article</a>
-      <a href="#" class="btn btn-info">Mes articles</a>
-      <a href="#" class="btn btn-warning">Recherche un article</a>
-      <a href="#" class="btn btn-danger">Mon compte</a>
-    </div>
+        <div class="well">
+            <h3>
+                YouBlog
+            </h3>
+            <p>
+                This is you.
+            </p>
+            <a href="#" class="btn btn-success">Ecrire un nouvelle article</a>
+            <a href="#" class="btn btn-info">Mes articles</a>
+            <a href="#" class="btn btn-warning">Recherche un article</a>
+            <a href="#" class="btn btn-danger">Mon compte</a>
+        </div>
 
         <div id="main" class="container">
 
-           
+
 
         </div>
-        
-         <form class="form-horizontal" >
+
+        <form class="form-horizontal" >
             <div class="form-group">
                 <label class="col-md-4 control-label" for="content">Titre :</label>
                 <div class="col-md-4">
@@ -50,6 +50,12 @@
                     <input id="contenu" name="contenu" type="text" class="form-control input-sm">
                 </div>
             </div>
+       
+            <input type="file" id="fic">
+            <pre id="imageReceivedMessage"></pre>
+            <img src="" id="imageSentFromServer" style="width: 40px; height: 50px; border-width: 0px;"/>
+         
+
 
             <div class="form-group">
                 <label class="col-md-4 control-label" ></label>
@@ -59,7 +65,7 @@
                 </div>
             </div>
         </form>
-        </div>
-        
+
+
     </body>
 </html>

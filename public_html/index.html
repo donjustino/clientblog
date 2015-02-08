@@ -37,7 +37,7 @@ and open the template in the editor.
         <a href="#" class="btn btn-success" data-bind="click: write">Ecrire un nouvelle article</a>
         <a href="#" class="btn btn-info" data-bind="click: myarticle">Mes articles</a>
         <a href="#" class="btn btn-warning">Recherche un article</a>
-        <a href="#" class="btn btn-danger">Mon compte</a>
+        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#myAccount" data-bind="click: account">Mon compte</a>
         <script>
             var cook = getCookie("utilisateur");
             if (cook == null) {
@@ -53,44 +53,64 @@ and open the template in the editor.
 
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Commentaire</h4>
-      </div>
-        <div class="modal-body" id="modal-body">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Commentaire</h4>
+                </div>
+                <div class="modal-body" id="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <label class="col-md-4 control-label">Ajouter votre commentaire :</label>
+                    <textarea class="form-control" id="sendc" style="margin: 0px -1px 0px 0px; height: 123px; width: 500px;"></textarea>
+                    <ul></ul>
+                    <a href="#"  class="btn btn-success" data-bind="click: sendcomment">Envoyer</a>
+
+                </div>
+            </div>
         </div>
-      <div class="modal-footer">
-          <label class="col-md-4 control-label">Ajouter votre commentaire :</label>
-          <textarea class="form-control" id="sendc" style="margin: 0px -1px 0px 0px; height: 123px; width: 500px;"></textarea>
-          <ul></ul>
-          <a href="#"  class="btn btn-success" data-bind="click: sendcomment">Envoyer</a>
-          
-      </div>
     </div>
-  </div>
-</div>
+
+    <div class="modal fade" id="myAccount" tabindex="-1" role="dialog" aria-labelledby="myAccount" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mon compte</h4>
+                  
+                    <label class="col-md-4 control-label" ></label>
+              
+                </div>
+                <div class="modal-body" id="account-body">
+                </div>
+                <div class="modal-footer">
+                    <a href="#"  class="btn btn-success" data-bind="click: edituser">Valider</a>
+
+                </div>
+            </div>
+        </div>
+    </div>    
 
 
     <table  class="table table-striped">  
 
-        <tbody data-bind="foreach: articles">  
-            <tr>  
+        <tbody data-bind="foreach: articles" > 
+            <tr> 
                 <td>    
                     <div class="container">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" data-bind='text: title' > </label>
-                            <textarea class="form-control" data-bind='text: content' style="margin: 0px -1px 0px 0px; height: 223px; width: 1140px;"></textarea>
+                            <center><img data-bind="attr:{ src: photo }"  width="400" height="300" /></center>
+                            <label class="col-md-4 control-label" data-bind='text: content' > </label>
                             <span class="label label-default"  data-bind='text: keyword'></span>
                             <label>Ecrit par :</label>
                             <label class="col-md-4 control-label" data-bind='text: ecritpar'></label>
                             <label class="col-md-4 control-label" data-bind='text: published_on'></label>
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-bind="click: comment">
+                            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-bind="click: comment">
                                 Commentaire
                             </button>
-                            
 
 
                         </div>
@@ -99,6 +119,6 @@ and open the template in the editor.
             </tr>  
         </tbody>  
     </table>  
-    
+
 </body>
 </html>

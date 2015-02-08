@@ -1,16 +1,35 @@
 var self = this;
+var picture = "null";
+
 var art = function (article) {
+    this.id = ko.observable(article.id);
     this.title = ko.observable(article.title);
     this.keyword = ko.observable(article.keyword);
     this.content = ko.observable(article.content);
     this.ecritpar = ko.observable(article.ecritpar.username);
-    this.id = ko.observable(article.id);
     this.published_on = ko.observable(article.published_on);
+    this.photo = ko.observable(article.photo);
+    
+    
     //this.comments = ko.observable(article.comments.comment);
+    $('#fic').on('change', function (e) {
+                    var file = e.originalEvent.target.files[0],
+                            reader = new FileReader();
+                 
+                       reader.onload = function (evt) {
+                        $('#imageSelected').attr('src', evt.target.result);
+                        $('#selectedImageConainer').css('display', '');
+                        var jsonObject = {
+                            'imageData': evt.target.result
+                        }
+                        // send a custom socket message to server
+                       picture =jsonObject.imageData;
+                    };
+                    reader.readAsDataURL(file);
 
+     });
 
 };
-
 var ViewModelArticle = function (articles) {
 
     //représente la liste des catégories  
@@ -28,10 +47,15 @@ self.added = function (article) {
     var title = document.getElementById("titre").value;
     var keyword = document.getElementById("mc").value;
     var content = document.getElementById("contenu").value;
+    var photo = document.getElementById("fic").value;
+
+
+
     var JSONObject = {
         "title": title,
         "keyword": keyword,
-        "content": content
+        "content": content,
+        "photo": picture
     };
     var cook = getCookie("utilisateur");
     alert(cook);
@@ -51,8 +75,8 @@ self.added = function (article) {
         },
     })
             .success(function (data) {
-                alert("ok");
-                self.articles.update(article);
+             
+              
 
             })
             .error(function (jq, status, error) {
@@ -210,3 +234,69 @@ function getCookie(sName) {
     }
     return null;
 }
+self.bphoto = function (article) {
+   alert("test");
+   //alert(ko.toJSON(article.id));
+}
+function test(){
+ //document.getElementById("photo").innerHTML = "<IMG SRC=" + article.photo +" ALT=\"Texte remplaçant l'image\" TITLE=\"Texte à afficher\">";
+ 
+ 
+  document.getElementById('test').click();
+
+}
+self.account = function () {
+     var cook = getCookie("utilisateur");
+     $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/mod/" + cook ,
+        type: "GET",
+        headers: {
+            Accept: "application/json"
+        }
+    }).success(function (data, status, jq) {  
+        document.getElementById("account-body").innerHTML = "<label class=\"col-md-4 control-label\" for=\"content\">Nom d'utilisateur :</label>"
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + data[0].username + " </ul>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<label class=\"col-md-4 control-label\" for=\"content\">Nom :</label>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<input id=\"nom\" name=\"nom\" type=\"text\" class=\"form-control input-sm\" value='" + data[0].lastname + "'>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<label class=\"col-md-4 control-label\" for=\"content\">Prenom :</label>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<input id=\"prenom\" name=\"prenom\" type=\"text\" class=\"form-control input-sm\" value='" + data[0].firstname + "'>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<label class=\"col-md-4 control-label\" for=\"content\">Mot de passe :</label>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<input id=\"password\" name=\"password\" type=\"password\" class=\"form-control input-sm\" value='" + data[0].password + "'>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<label class=\"col-md-4 control-label\" for=\"content\">A propos :</label>";
+        document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<input id=\"apropos\" name=\"apropos\" type=\"text\" class=\"form-control input-sm\" value='" + data[0].about + "'>";
+    }).error(function (jq, status, error) {
+        $(".error").text(JSON.stringify(status + " " + error));
+
+    });
+   
+};
+self.edituser = function(){
+    var lastname = document.getElementById("nom").value;
+    var firstname = document.getElementById("prenom").value;
+    var login = getCookie("utilisateur");
+    var password = document.getElementById("password").value;
+    var about = document.getElementById("apropos").value;
+    alert(lastname + " " + firstname + " " +login + " "  + password + " " +about);
+
+    var JSONObject = {
+        "firstname": firstname,
+        "lastname": lastname,
+        "username": login,
+        "password": password,
+        "about":about
+     };
+      $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users",
+        type: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(JSONObject),
+        dataType: 'JSON'
+    })
+            .success(function (data) {
+               
+            })
+            .error(function (jq, status, error) {
+                $(".error").text(JSON.stringify(status + " " + error));
+            });
+            
+};
