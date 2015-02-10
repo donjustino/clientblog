@@ -21,7 +21,7 @@ and open the template in the editor.
             <h3>
                 YouBlog
             </h3>
-            <p>
+
             <div id="log"> </div>
             <script>
                 var cook = getCookie("utilisateur");
@@ -32,93 +32,211 @@ and open the template in the editor.
                     document.getElementById("log").innerHTML = "Bonjour, " + cook + " ";
                 }
             </script>
-        </p>
-        <a href="index.html" class="btn btn-success">Accueil</a>
-        <a href="#" class="btn btn-success" data-bind="click: write">Ecrire un nouvelle article</a>
-        <a href="#" class="btn btn-info" data-bind="click: myarticle">Mes articles</a>
-        <a href="#" class="btn btn-warning">Recherche un article</a>
-        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#myAccount" data-bind="click: account">Mon compte</a>
-        <script>
-            var cook = getCookie("utilisateur");
-            if (cook == null) {
-                document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + "<a href=\"#\" class=\"btn btn-danger\">Connexion</a> <a href=\"#\" class=\"btn btn-danger\">Créer un compte</a>";
-            }
-            else {
-                document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + "<a href=\"#\" class=\"btn btn-danger\">Deconnexion</a>";
-            }
-        </script>
+            <p></p>
+
+            <a href="index.html" class="btn btn-success">Accueil</a>
+            
+            
+
+            <script>
+                var cook = getCookie("utilisateur");
+                if (cook == null) {
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#myLogin\">Connexion</a>";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\"  data-toggle=\"modal\" data-target=\"#createAccount\" >Créer un compte</a>";
+                }
+                else {
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#addarticle\">Ecrire un nouvelle article</a>";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-info\" data-bind=\"click: myarticle\">Mes articles</a> ";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#myAccount\" data-bind=\"click: account\">Mon compte</a>";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\" data-bind=\"click: logout\">Deconnexion</a>";
+                }
+            </script>
+            <p></p>
+
+            <div class="modal fade" id="myAccount" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
 
-
-
-    </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Commentaire</h4>
-                </div>
-                <div class="modal-body" id="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <label class="col-md-4 control-label">Ajouter votre commentaire :</label>
-                    <textarea class="form-control" id="sendc" style="margin: 0px -1px 0px 0px; height: 123px; width: 500px;"></textarea>
-                    <ul></ul>
-                    <a href="#"  class="btn btn-success" data-bind="click: sendcomment">Envoyer</a>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="myAccount" tabindex="-1" role="dialog" aria-labelledby="myAccount" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Mon compte</h4>
-                  
-                    <label class="col-md-4 control-label" ></label>
-              
-                </div>
-                <div class="modal-body" id="account-body">
-                </div>
-                <div class="modal-footer">
-                    <a href="#"  class="btn btn-success" data-bind="click: edituser">Valider</a>
-
-                </div>
-            </div>
-        </div>
-    </div>    
-
-
-    <table  class="table table-striped">  
-
-        <tbody data-bind="foreach: articles" > 
-            <tr> 
-                <td>    
-                    <div class="container">
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" data-bind='text: title' > </label>
-                            <center><img data-bind="attr:{ src: photo }"  width="400" height="300" /></center>
-                            <label class="col-md-4 control-label" data-bind='text: content' > </label>
-                            <span class="label label-default"  data-bind='text: keyword'></span>
-                            <label>Ecrit par :</label>
-                            <label class="col-md-4 control-label" data-bind='text: ecritpar'></label>
-                            <label class="col-md-4 control-label" data-bind='text: published_on'></label>
-                            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-bind="click: comment">
-                                Commentaire
-                            </button>
-
+                            <label class="col-md-4 control-label" ></label>
 
                         </div>
-                    </div>      
-                </td>
-            </tr>  
-        </tbody>  
-    </table>  
+                        <div class="modal-body" id="account-body">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#"  class="btn btn-success" data-bind="click: edituser">Valider</a>
 
-</body>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            <div class="modal fade" id="addarticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabelArt" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabelAddArt">Commentaire</h4>
+                        </div>
+                        <div class="modal-body" id="addarticle-body">
+                            <input type="hidden" class="form-control" id="user" value="test">
+                            <label class="col-md-4 control-label" for="content">Titre :</label>
+                            <input type="text" class="form-control" id="titre">
+                            <label class="col-md-4 control-label" for="content">motclef :</label>
+                            <input id="mc" name="mc" type="text" class="form-control input-sm">
+                            <textarea class="form-control" id="contenu" style="margin: 0px -1px 0px 0px; height: 123px; width: 500px;"></textarea>
+                            <label class="col-md-4 control-label" for="content">Image :</label>
+                            <input type="file" id="fic">
+
+                        </div>
+                        <div class="modal-footer">
+                            <label class="col-md-4 control-label">Ajouter votre commentaire :</label>
+
+                            <ul></ul>
+                            <a href="#"  class="btn btn-success" data-bind="click: added">Envoyer</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="createAccount" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabelAddArt">Création compte</h4>
+
+                        </div>
+                        <div class="modal-body" id="createaccount-body">
+
+                            <form class="form-horizontal" >
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="content">Nom :</label>
+                                    <div class="col-md-4">
+                                        <input id="nom" name="nom" type="text" class="form-control input-sm">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="content">Prenom :</label>
+                                    <div class="col-md-4">
+                                        <input id="prenom" name="prenom" type="text" class="form-control input-sm">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="content">Nom d'utilisateur :</label>
+                                    <div class="col-md-4">
+                                        <input id="login" name="login" type="text" class="form-control input-sm">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="content">Mot de passe :</label>
+                                    <div class="col-md-4">
+                                        <input id="password" name="password" type="text" class="form-control input-sm">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="content">A propos :</label>
+                                    <div class="col-md-4">
+                                        <input id="apropos" name="apropos" type="text" class="form-control input-sm">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <label class="col-md-4 control-label"></label>
+                            <ul></ul>
+                            <a href="#"  class="btn btn-success" data-bind="click: sendaccount">Envoyer</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myLogin" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+
+                            <label class="col-md-4 control-label" >Connexion</label>
+
+                        </div>
+                        <div class="modal-body" id="log-body">
+                            <label> Nom d'utilisateur : </label>
+                            <input type="text" class="form-control" id="userlog">
+                            <label> Mot de passe : </label>
+                            <input type="password" class="form-control" id="passwordlog">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#"  class="btn btn-success" data-bind="click: log">Valider</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Commentaire</h4>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <label class="col-md-4 control-label">Ajouter votre commentaire :</label>
+                            <textarea class="form-control" id="sendc" style="margin: 0px -1px 0px 0px; height: 123px; width: 500px;"></textarea>
+                            <ul></ul>
+                            <a href="#"  class="btn btn-success" data-bind="click: sendcomment">Envoyer</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div>
+                <table  class="table table-striped">  
+
+                    <tbody data-bind="foreach: articles" > 
+                        <tr> 
+                            <td>    
+                                <div class="container">
+
+                                    <div class="form-group">
+                                        <label for="textarea" data-bind='text: title'></label>
+                                        <center><img data-bind="attr:{ src: photo }"  width="400" height="300" /></center>
+                                        <label class="col-md-4 control-label" data-bind='text: content' > </label>
+                                        <span class="label label-default"  data-bind='text: keyword'></span>
+                                        <label>Ecrit par :</label>
+                                        <label class="col-md-4 control-label" data-bind='text: ecritpar'></label>
+                                        <label class="col-md-4 control-label" data-bind='text: published_on'></label>
+                                        <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-bind="click: comment">
+                                            Commentaire
+                                        </button>
+
+
+                                    </div>
+                                </div>      
+                            </td>
+                        </tr>  
+                    </tbody>  
+                </table>  
+            </div>
+
+    </body>
 </html>

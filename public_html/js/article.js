@@ -2,12 +2,13 @@ var self = this;
 var picture = "null";
 
 var art = function (article) {
+   
     this.id = ko.observable(article.id);
     this.title = ko.observable(article.title);
     this.keyword = ko.observable(article.keyword);
     this.content = ko.observable(article.content);
     this.ecritpar = ko.observable(article.ecritpar.username);
-    this.published_on = ko.observable(article.published_on);
+    this.published_on = date=new Date(article.published_on);
     this.photo = ko.observable(article.photo);
     
     
@@ -75,7 +76,7 @@ self.added = function (article) {
         },
     })
             .success(function (data) {
-             
+                $('#addarticle').modal('hide')
               
 
             })
@@ -164,7 +165,7 @@ self.comment = function (article) {
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + "<ul>";
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + data[i].commentepar.username + "</ul>";
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + "<ul>";
-            document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + data[i].commented_date + "</ul>";
+            document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML +  new Date(data[i].commented_date) + "</ul>"; 
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + "<ul>";
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + data[i].comment + "</ul>";
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + "</ul>";
@@ -174,8 +175,8 @@ self.comment = function (article) {
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + "</tr>";
             document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + "<HR>";
         }
-        document.getElementById("tablecom").innerHTML = document.getElementById("tablecom").innerHTML + " </tbody>";
-        document.getElementById("tablecom").innerHTML = document.getElementById("tablecom").innerHTML + " </table>";
+        document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + " </tbody>";
+        document.getElementById("modal-body").innerHTML = document.getElementById("modal-body").innerHTML + " </table>";
     }).error(function (jq, status, error) {
         $(".error").text(JSON.stringify(status + " " + error));
 
@@ -217,6 +218,16 @@ function setCookie(sName, sValue) {
     expires.setTime(today.getTime() + (365 * 24 * 60 * 60 * 1000));
     document.cookie = sName + "=" + encodeURIComponent(sValue) + ";expires=" + expires.toGMTString();
 }
+function eraseCookie(sName, sValue) {
+    var today = new Date(), expires = new Date();
+    expires.setTime(today.getTime() + (0 * 0 * 0 * 0 * 1000));
+    document.cookie = sName + "=" + encodeURIComponent(sValue) + ";expires=" + expires.toGMTString();
+}
+function delog(){
+    var cook = getCookie("utilisateur");
+    eraseCookie("utilisateur", cook);
+    window.location.reload(true);
+}
 
 function getCookie(sName) {
     var cookContent = document.cookie, cookEnd, i, j;
@@ -234,6 +245,10 @@ function getCookie(sName) {
     }
     return null;
 }
+self.logout = function (article) {
+   delog();
+ }
+
 self.bphoto = function (article) {
    alert("test");
    //alert(ko.toJSON(article.id));
@@ -246,6 +261,7 @@ function test(){
 
 }
 self.account = function () {
+     
      var cook = getCookie("utilisateur");
      $.ajax({
         url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/mod/" + cook ,
@@ -254,6 +270,7 @@ self.account = function () {
             Accept: "application/json"
         }
     }).success(function (data, status, jq) {  
+        setCookie("idutil", data[0].id);
         document.getElementById("account-body").innerHTML = "<label class=\"col-md-4 control-label\" for=\"content\">Nom d'utilisateur :</label>"
         document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + data[0].username + " </ul>";
         document.getElementById("account-body").innerHTML = document.getElementById("account-body").innerHTML + "<label class=\"col-md-4 control-label\" for=\"content\">Nom :</label>";
@@ -271,14 +288,15 @@ self.account = function () {
    
 };
 self.edituser = function(){
+    var id = getCookie("idutil");
     var lastname = document.getElementById("nom").value;
     var firstname = document.getElementById("prenom").value;
     var login = getCookie("utilisateur");
     var password = document.getElementById("password").value;
     var about = document.getElementById("apropos").value;
-    alert(lastname + " " + firstname + " " +login + " "  + password + " " +about);
 
     var JSONObject = {
+        "id" :id,
         "firstname": firstname,
         "lastname": lastname,
         "username": login,
@@ -286,17 +304,105 @@ self.edituser = function(){
         "about":about
      };
       $.ajax({
-        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users",
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/" + id,
         type: "PUT",
         contentType: "application/json",
         data: JSON.stringify(JSONObject),
         dataType: 'JSON'
     })
             .success(function (data) {
-               
+                $('#myAccount').modal('hide');
             })
             .error(function (jq, status, error) {
                 $(".error").text(JSON.stringify(status + " " + error));
             });
-            
+       
+};
+self.log = function(){
+    var login = document.getElementById("userlog").value;
+    var password = document.getElementById("passwordlog").value;
+    var JSONObject = {
+        "login": login,
+        "password": password
+    };
+    var cook = getCookie("utilisateur");
+ 
+
+    $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/" + login + "/" + password + "",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(JSONObject),
+        dataType: 'JSON',
+        xhrFields: {
+            withCredentials: false
+        },
+        crossDomain: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Users", cook);
+        },
+    })
+            .success(function (data) {
+                if (data != null) {
+
+                    if (data[0].status == true) {
+
+                        setCookie("utilisateur", login);
+                        setCookie("idutil", data[0].id);
+                        document.location.href = "index.html";
+
+                    }
+                    else {
+                        alert("Votre compte est en attente de modération");
+                    }
+
+
+                }
+                else {
+                    alert("Utilisateur inconnu, ou mauvais mot de passe");
+                }
+
+
+            })
+            .error(function (jq, status, error) {
+                $(".error").text(JSON.stringify(status + " " + error));
+            });
+       
+};
+self.sendaccount = function(){
+  var lastname = document.getElementById("nom").value;
+    var firstname = document.getElementById("prenom").value;
+    var login = document.getElementById("login").value;
+    var password = document.getElementById("password").value;
+    var about = document.getElementById("apropos").value;
+    alert(lastname);
+    var JSONObject = {
+        "firstname": firstname,
+        "lastname": lastname,
+        "username": login,
+        "password": password,
+        "about": about
+    };
+    $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(JSONObject),
+        dataType: 'JSON'
+    })
+            .success(function (data) {
+                //setCookie("utilisateur", login);
+                alert("Votre compte à été créer avec succès... Néanmoins en attente de validation...");
+                document.location.href = "index.html";
+
+            })
+            .error(function (jq, status, error) {
+                $(".error").text(JSON.stringify(status + " " + error));
+            });
+       
+};
+self.checkadd = function(){
+    
+
+        
 };

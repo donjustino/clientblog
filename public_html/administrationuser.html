@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>YouBlog</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <script type='text/javascript' src="js/knockout/knockout-min.js"></script>  
+        <script type='text/javascript' src="js/jquery/jquery.js"></script> 
+        <script type='text/javascript' src='js/WebServLogin.js'></script>     
+        <script type='text/javascript' src='js/login.js'></script>
+        <script type='text/javascript' src='js/bootstrap.js'></script>
+    </head>
+    <body>
+        <div class="well">
+            <h3>
+                YouBlog
+            </h3>
+            <p>
+                Administration.
+            </p>
+            <a href="#" class="btn btn-success">Voir articles publiées</a>
+            <a href="#" class="btn btn-info">Voir commentaire publiées</a>
+            <a href="#" class="btn btn-warning">Voir utilisateur</a>
+            <a href="#" class="btn btn-danger">Statistique</a>
+        </div>
+
+
+        <div >  
+            <table  class="table table-striped">  
+                <tr>  
+                    <th>Utilisateur</th>  
+                    <th>Nom</th> 
+                    <th>Prénom</th>
+                    <th>Action</th>
+                
+                </tr>  
+                <tbody data-bind="foreach: utilisateurs">  
+                    <tr>  
+                        <td>
+                            <label class="col-md-4 control-label" data-bind='text: login' > </label>
+                        </td>
+                        <td>
+                            <label class="col-md-4 control-label" data-bind='text: nom' />
+                        </td>
+                        <td >
+                            <label class="col-md-4 control-label" data-bind='text: prenom' />  
+                        </td>
+
+                        <td>
+                             <button class="btn btn-danger" data-bind="click: activate">Activé</button>  
+                             <button class="btn btn-danger" data-bind="click: disabled">Désactivé</button>  
+                        </td>
+                       
+                      
+                   
+                        
+                    </tr>  
+                </tbody>    
+
+            </table>  
+        </div>  
+
+    </body>
+</html>

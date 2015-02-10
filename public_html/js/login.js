@@ -1,5 +1,6 @@
 var self = this;
 var usr = function (utilisateur) {
+    this.id = ko.observable(utilisateur.id);
     this.login = ko.observable(utilisateur.username);
     this.password = ko.observable(utilisateur.password);
     this.nom = ko.observable(utilisateur.lastname);
@@ -8,7 +9,7 @@ var usr = function (utilisateur) {
 };
 
 var ViewModelUtilisateur = function (utilisateurs) {
-   
+
     //représente la liste des catégories  
     //La fonction prend la réponse obtenue du serveur en paramètre  
     //Ici nous supposons que vous avez chargé la liste des catégories  
@@ -18,7 +19,7 @@ var ViewModelUtilisateur = function (utilisateurs) {
     }));
 };
 
-self.adduser = function(utilisateur){
+self.adduser = function (utilisateur) {
     var lastname = document.getElementById("nom").value;
     var firstname = document.getElementById("prenom").value;
     var login = document.getElementById("login").value;
@@ -29,9 +30,9 @@ self.adduser = function(utilisateur){
         "lastname": lastname,
         "username": login,
         "password": password,
-        "about":about
-     };
-      $.ajax({
+        "about": about
+    };
+    $.ajax({
         url: "http://localhost:8080/Blog/resources/utilisateur.entities.users",
         type: "POST",
         contentType: "application/json",
@@ -41,7 +42,7 @@ self.adduser = function(utilisateur){
             .success(function (data) {
                 setCookie("utilisateur", login);
                 alert("Votre compte à été créer avec succès... redirection...");
-                document.location.href="index.html";
+                document.location.href = "index.html";
 
             })
             .error(function (jq, status, error) {
@@ -55,34 +56,45 @@ self.send = function (article) {
     var JSONObject = {
         "login": login,
         "password": password
-     };
-     var cook = getCookie("utilisateur");
-     alert(login);
-    
+    };
+    var cook = getCookie("utilisateur");
+    alert(login);
+
     $.ajax({
-        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/" + login + "/" +password +"",
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/" + login + "/" + password + "",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(JSONObject),
         dataType: 'JSON',
         xhrFields: {
-           withCredentials: false
+            withCredentials: false
         },
         crossDomain: true,
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr.setRequestHeader("Users", cook);
         },
     })
             .success(function (data) {
-                if(data == true){
-                     alert("Vous êtes connecté !!"); 
-                    setCookie("utilisateur", login);
-                    
+                if (data != null) {
+
+                    if (data[0].status == true) {
+
+                        setCookie("utilisateur", login);
+                        setCookie("idutil", data[0].id);
+                         $('#login').modal('hide');
+
+                    }
+                    else {
+                        alert("Votre compte est en attente de modération, veuillez vous reconnecter plus tard...");
+                        $('#login').modal('hide');
+                    }
+
+
                 }
-                else{
-                     alert("Utilisateur inconnu, ou mauvais mot de passe"); 
+                else {
+                    alert("Utilisateur inconnu, ou mauvais mot de passe");
                 }
-              
+
 
             })
             .error(function (jq, status, error) {
@@ -113,3 +125,42 @@ function getCookie(sName) {
     }
     return null;
 }
+
+self.activate = function (utilisateur) {
+    alert(utilisateur.id());
+    $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/valid/" + utilisateur.id(),
+        type: "GET",
+        headers: {
+            Accept: "application/json"
+        }
+    }).success(function (data, status, jq) {
+
+        
+
+
+
+    }).error(function (jq, status, error) {
+        $(".error").text(JSON.stringify(status + " " + error));
+
+    });
+
+};
+self.disabled = function (utilisateur) {
+    $.ajax({
+        url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/disabled/" + utilisateur.id(),
+        type: "GET",
+        headers: {
+            Accept: "application/json"
+        }
+    }).success(function (data, status, jq) {
+
+      
+
+
+    }).error(function (jq, status, error) {
+        $(".error").text(JSON.stringify(status + " " + error));
+
+    });
+
+};
