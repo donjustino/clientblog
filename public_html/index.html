@@ -15,8 +15,24 @@ and open the template in the editor.
         <script type='text/javascript' src='js/webServArt.js'></script>     
         <script type='text/javascript' src='js/article.js'></script>
         <script type='text/javascript' src='js/bootstrap.js'></script>
+
+
+
     </head>
     <body>
+
+
+
+        <div id="fb-root"></div>
+        <script>(function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
         <div class="well" id="well">
             <h3>
                 YouBlog
@@ -34,20 +50,24 @@ and open the template in the editor.
             </script>
             <p></p>
 
-            <a href="index.html" class="btn btn-success">Accueil</a>
-            
-            
+            <a href="index.html" class="btn btn-info">Accueil</a>
+
+            <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+                {
+                    lang: 'fr'
+                }
+            </script>
 
             <script>
                 var cook = getCookie("utilisateur");
                 if (cook == null) {
-                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#myLogin\">Connexion</a>";
-                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\"  data-toggle=\"modal\" data-target=\"#createAccount\" >Créer un compte</a>";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#myLogin\">Connexion</a>";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-success\"  data-toggle=\"modal\" data-target=\"#createAccount\" >Créer un compte</a>";
                 }
                 else {
                     document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#addarticle\">Ecrire un nouvelle article</a>";
-                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-info\" data-bind=\"click: myarticle\">Mes articles</a> ";
-                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#myAccount\" data-bind=\"click: account\">Mon compte</a>";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-warning\" data-bind=\"click: myarticle\">Mes articles</a> ";
+                    document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#myAccount\" data-bind=\"click: account\">Mon compte</a>";
                     document.getElementById("well").innerHTML = document.getElementById("well").innerHTML + " <a href=\"#\" class=\"btn btn-danger\" data-bind=\"click: logout\">Deconnexion</a>";
                 }
             </script>
@@ -137,7 +157,7 @@ and open the template in the editor.
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="content">Mot de passe :</label>
                                     <div class="col-md-4">
-                                        <input id="password" name="password" type="text" class="form-control input-sm">
+                                        <input id="password" name="password" type="password" class="form-control input-sm">
                                     </div>
                                 </div>
 
@@ -170,12 +190,14 @@ and open the template in the editor.
                             <label class="col-md-4 control-label" >Connexion</label>
 
                         </div>
-                        <div class="modal-body" id="log-body">
-                            <label> Nom d'utilisateur : </label>
-                            <input type="text" class="form-control" id="userlog">
-                            <label> Mot de passe : </label>
-                            <input type="password" class="form-control" id="passwordlog">
-                        </div>
+                        <center>
+                            <div class="modal-body" id="log-body">
+                                <label> Nom d'utilisateur : </label>
+                                <input type="text" class="form-control" id="userlog">
+                                <label> Mot de passe : </label>
+                                <input type="password" class="form-control" id="passwordlog">
+                            </div>
+                        </center>
                         <div class="modal-footer">
                             <a href="#"  class="btn btn-success" data-bind="click: log">Valider</a>
 
@@ -222,21 +244,34 @@ and open the template in the editor.
                                         <center><img data-bind="attr:{ src: photo }"  width="400" height="300" /></center>
                                         <label class="col-md-4 control-label" data-bind='text: content' > </label>
                                         <span class="label label-default"  data-bind='text: keyword'></span>
-                                        <label>Ecrit par :</label>
                                         <label class="col-md-4 control-label" data-bind='text: ecritpar'></label>
                                         <label class="col-md-4 control-label" data-bind='text: published_on'></label>
                                         <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-bind="click: comment">
                                             Commentaire
                                         </button>
+                                        <p></p>
+                                        <div class="fb-share-button" data-href="http://localhost:8383/ClientBlog/" data-layout="box_count"></div>
+                                        <a href="http://twitter.com/share" class="twitter-share-button" 
+                                           data-count="vertical" data-via="InfoWebMaster">Tweet</a>
+                                        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                                        <script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
+                                        <script type="in/share" data-counter="top"></script>
+                                        <!-- Placez cette balise dans l'en-tête ou juste avant la balise de fermeture du corps de texte. -->
+                                        <script src="https://apis.google.com/js/platform.js" async defer>
+                                         {
+                                              lang: 'fr'
+                                         }
+                                        </script>
+                                        <div class="g-plus" data-action="share" data-href="http://localhost:8383/ClientBlog/"></div>
 
-
-                                    </div>
-                                </div>      
+                                    </div>      
                             </td>
                         </tr>  
                     </tbody>  
                 </table>  
             </div>
+            <!-- Placez cette balise dans l'en-tête ou juste avant la balise de fermeture du corps de texte. -->
 
     </body>
+
 </html>

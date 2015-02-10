@@ -59,7 +59,6 @@ self.added = function (article) {
         "photo": picture
     };
     var cook = getCookie("utilisateur");
-    alert(cook);
 
     $.ajax({
         url: "http://localhost:8080/Blog/resources/article.entities.article",
@@ -76,7 +75,9 @@ self.added = function (article) {
         },
     })
             .success(function (data) {
-                $('#addarticle').modal('hide')
+                $('#addarticle').modal('hide');
+                document.location.href = "myarticle.html";
+        
               
 
             })
@@ -120,7 +121,7 @@ self.removed = function (article) {
 
             })
             .error(function (jq, status, error) {
-                alert("ok");
+               
             });
 };
 
@@ -226,7 +227,7 @@ function eraseCookie(sName, sValue) {
 function delog(){
     var cook = getCookie("utilisateur");
     eraseCookie("utilisateur", cook);
-    window.location.reload(true);
+    document.location.href="index.html";
 }
 
 function getCookie(sName) {
@@ -250,7 +251,7 @@ self.logout = function (article) {
  }
 
 self.bphoto = function (article) {
-   alert("test");
+   
    //alert(ko.toJSON(article.id));
 }
 function test(){
@@ -375,7 +376,6 @@ self.sendaccount = function(){
     var login = document.getElementById("login").value;
     var password = document.getElementById("password").value;
     var about = document.getElementById("apropos").value;
-    alert(lastname);
     var JSONObject = {
         "firstname": firstname,
         "lastname": lastname,
@@ -400,9 +400,4 @@ self.sendaccount = function(){
                 $(".error").text(JSON.stringify(status + " " + error));
             });
        
-};
-self.checkadd = function(){
-    
-
-        
 };

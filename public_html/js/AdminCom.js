@@ -26,7 +26,7 @@ var ViewModelCommentaire = function (commentaires) {
     }));
 };
 
-self.removed = function (commentaire) {
+self.removedcom = function (commentaire) {
     self.commentaires.remove(commentaire);
     $.ajax({
         url: "http://localhost:8080/Blog/resources/commentaire.comment/" + commentaire.id(),
@@ -45,7 +45,7 @@ self.removed = function (commentaire) {
             });
 
 };
-self.activate = function (commentaire) {
+self.activatecom = function (commentaire) {
     alert("test");
     $.ajax({
         url: "http://localhost:8080/Blog/resources/commentaire.comment/valid/" + commentaire.id(),
@@ -65,7 +65,7 @@ self.activate = function (commentaire) {
     });
 
 };
-self.disabled = function (commentaire) {
+self.disabledcom = function (commentaire) {
    
     $.ajax({
         url: "http://localhost:8080/Blog/resources/commentaire.comment/disabled/" + commentaire.id(),

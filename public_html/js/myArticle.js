@@ -2,33 +2,49 @@ var self = this;
 var picture = "null";
 
 var art = function (article) {
-   
+
     this.id = ko.observable(article.id);
     this.title = ko.observable(article.title);
     this.keyword = ko.observable(article.keyword);
     this.content = ko.observable(article.content);
     this.ecritpar = ko.observable(article.ecritpar.username);
-    this.published_on = date=new Date(article.published_on);
+    this.published_on = date = new Date(article.published_on);
     this.photo = ko.observable(article.photo);
-    
-    
+
+
     //this.comments = ko.observable(article.comments.comment);
     $('#fic').on('change', function (e) {
-                            var file = e.originalEvent.target.files[0],
-                            reader = new FileReader();
-                 
-                       reader.onload = function (evt) {
-                        $('#imageSelected').attr('src', evt.target.result);
-                        $('#selectedImageConainer').css('display', '');
-                        var jsonObject = {
-                            'imageData': evt.target.result
-                        }
-                        // send a custom socket message to server
-                       picture =jsonObject.imageData;
-                    };
-                    reader.readAsDataURL(file);
+        var file = e.originalEvent.target.files[0],
+                reader = new FileReader();
 
-     });
+        reader.onload = function (evt) {
+            $('#imageSelected').attr('src', evt.target.result);
+            $('#selectedImageConainer').css('display', '');
+            var jsonObject = {
+                'imageData': evt.target.result
+            }
+            // send a custom socket message to server
+            picture = jsonObject.imageData;
+        };
+        reader.readAsDataURL(file);
+
+    });
+    $('#fice').on('change', function (e) {
+        var file = e.originalEvent.target.files[0],
+                reader = new FileReader();
+
+        reader.onload = function (evt) {
+            $('#imageSelected').attr('src', evt.target.result);
+            $('#selectedImageConainer').css('display', '');
+            var jsonObject = {
+                'imageData': evt.target.result
+            }
+            // send a custom socket message to server
+            picture = jsonObject.imageData;
+        };
+        reader.readAsDataURL(file);
+
+    });
 
 };
 var ViewModelArticle = function (articles) {
@@ -61,54 +77,58 @@ self.removed = function (article) {
 };
 
 self.sendedit = function (article) {
+    alert("test");
     var id = getCookie("idart");
     var util = getCookie("idutil");
-    var title = document.getElementById("titre").value;
-    var keyword = document.getElementById("mc").value;
-    var content = document.getElementById("contenu").value;
-    var photo = document.getElementById("fic").value;
+    var title = document.getElementById("titree").value;
+    var keyword = document.getElementById("mce").value;
+    var content = document.getElementById("contenue").value;
+    var photo = document.getElementById("fice").value;
+    
+    alert(title + " " + keyword + " " + content + " ");
     
     var JSONObject = {
-        "id" :id,
+        "id": id,
         "title": title,
         "keyword": keyword,
         "content": content,
         "photo": picture
-     };
-      $.ajax({
-        url: "http://localhost:8080/Blog/resources/article.entities.article/" + id +"/"+ util,
+    };
+    $.ajax({
+        url: "http://localhost:8080/Blog/resources/article.entities.article/" + id + "/" + util,
         type: "PUT",
         contentType: "application/json",
         data: JSON.stringify(JSONObject),
         dataType: 'JSON'
     })
             .success(function (data) {
-              $('#myModalEdit').modal('hide');
+                $('#myModalEdit').modal('hide');
+                document.location.href="myarticle.html";
             })
             .error(function (jq, status, error) {
                 $(".error").text(JSON.stringify(status + " " + error));
             });
-       
+
 
 };
 self.see = function (article) {
-     $.ajax({
+    $.ajax({
         url: "http://localhost:8080/Blog/resources/article.entities.article/" + article.id(),
         type: "GET",
         headers: {
             Accept: "application/json"
         }
-    }).success(function (data, status, jq) {  
-        
-        document.getElementById("modal-article").innerHTML =   "<label>" + data.title + "</label>";
-        document.getElementById("modal-article").innerHTML =  document.getElementById("modal-article").innerHTML + "<label>" + data.keyword + "</label>";
-         if(data.photo != null){
-            document.getElementById("modal-article").innerHTML =  document.getElementById("modal-article").innerHTML + "<center><img src="+ data.photo +" alt=\"photo\" height=\"300\" width=\"200\"></center>";
-       }
-        document.getElementById("modal-article").innerHTML =  document.getElementById("modal-article").innerHTML + "<label>" + data.content + "</label>";
-       
-        document.getElementById("modal-article").innerHTML =  document.getElementById("modal-article").innerHTML + "<label>" + new Date(data.published_on) + "</label>";
-   
+    }).success(function (data, status, jq) {
+
+        document.getElementById("modal-articleView").innerHTML = "<label>" + data.title + "</label>";
+        document.getElementById("modal-articleView").innerHTML = document.getElementById("modal-articleView").innerHTML + " <span class=\"label label-default\"> " + data.keyword + " </span>";
+        if (data.photo != null) {
+            document.getElementById("modal-articleView").innerHTML = document.getElementById("modal-articleView").innerHTML + "<center><img src=" + data.photo + " alt=\"photo\" height=\"300\" width=\"200\"></center>";
+        }
+        document.getElementById("modal-articleView").innerHTML = document.getElementById("modal-articleView").innerHTML + "<label>" + data.content + "</label>";
+
+        document.getElementById("modal-articleView").innerHTML = document.getElementById("modal-articleView").innerHTML + "<label>" + new Date(data.published_on) + "</label>";
+
     }).error(function (jq, status, error) {
         $(".error").text(JSON.stringify(status + " " + error));
 
@@ -116,30 +136,34 @@ self.see = function (article) {
 };
 
 self.edit = function (article) {
-     setCookie("objutil", article.ecritpar());
-     setCookie("idart", article.id());
-     $.ajax({
+    setCookie("objutil", article.ecritpar());
+    setCookie("idart", article.id());
+    $.ajax({
         url: "http://localhost:8080/Blog/resources/article.entities.article/" + article.id(),
         type: "GET",
         headers: {
             Accept: "application/json"
         }
-    }).success(function (data, status, jq) {  
-        
-       
-        document.getElementById("modal-articleEdit").innerHTML = "<label class=\"col-md-4 control-label\" for=\"content\">Titre:</label>";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML + "<input id=\"titre\" name=\"titre\" type=\"text\" class=\"form-control input-sm\" value = "+ data.title +" >";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML + "<label>Tag : </label>";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML +  "<input id=\"mc\" name=\"mc\" type=\"text\" class=\"form-control input-sm\" value = "+ data.keyword +" >";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML + "<label>Contenu : </label>";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML + "<input id=\"contenu\" name=\"contenu\" type=\"text\" class=\"form-control input-sm\" value = "+ data.content +" >";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML + "<label>Photo : </label>";
-        document.getElementById("modal-articleEdit").innerHTML =  document.getElementById("modal-articleEdit").innerHTML + "<center><img src="+ data.photo +" alt=\"photo\" height=\"300\" width=\"200\"></center>";
-  
-        
-   
+    }).success(function (data, status, jq) {
+
+        if (data.status == false) {
+            document.getElementById("modal-articleEdit").innerHTML = "<label class=\"col-md-4 control-label\" for=\"content\">Titre:</label>";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<input id=\"titree\" name=\"titree\" type=\"text\" class=\"form-control input-sm\" value = " + data.title + " >";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<label>Tag : </label>";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<input id=\"mce\" name=\"mce\" type=\"text\" class=\"form-control input-sm\" value = " + data.keyword + " >";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<label>Contenu : </label>";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<input id=\"contenue\" name=\"contenue\" type=\"text\" class=\"form-control input-sm\" value = " + data.content + " >";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<label>Photo : </label>";
+            document.getElementById("modal-articleEdit").innerHTML = document.getElementById("modal-articleEdit").innerHTML + "<center><img src=" + data.photo + " alt=\"photo\" height=\"300\" width=\"200\"></center>";
+        }
+        else{
+            alert("Vous ne pouvez plus modifier cette article, il a était validé par l'administration");
+        }
+
+
     }).error(function (jq, status, error) {
         $(".error").text(JSON.stringify(status + " " + error));
+        $('#myModalEdit').modal('hide');
 
     });
 };

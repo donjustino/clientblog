@@ -58,7 +58,7 @@ self.send = function (article) {
         "password": password
     };
     var cook = getCookie("utilisateur");
-    alert(login);
+  
 
     $.ajax({
         url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/" + login + "/" + password + "",
@@ -126,8 +126,7 @@ function getCookie(sName) {
     return null;
 }
 
-self.activate = function (utilisateur) {
-    alert(utilisateur.id());
+self.activateusr = function (utilisateur) {
     $.ajax({
         url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/valid/" + utilisateur.id(),
         type: "GET",
@@ -146,7 +145,7 @@ self.activate = function (utilisateur) {
     });
 
 };
-self.disabled = function (utilisateur) {
+self.disabledusr = function (utilisateur) {
     $.ajax({
         url: "http://localhost:8080/Blog/resources/utilisateur.entities.users/disabled/" + utilisateur.id(),
         type: "GET",

@@ -9,7 +9,8 @@
         <script type='text/javascript' src="js/jquery/jquery.js"></script> 
         <script type='text/javascript' src='js/WebServLogin.js'></script>     
         <script type='text/javascript' src='js/login.js'></script>
-        <script type='text/javascript' src='js/bootstrap.js'></script>
+        <script type='text/javascript' src='js/bootstrap.js'></script>   
+        <script type='text/javascript' src='js/AdminArticle.js'></script>
     </head>
     <body>
         <div class="well">
@@ -19,47 +20,81 @@
             <p>
                 Administration.
             </p>
-            <a href="#" class="btn btn-success">Voir articles publiées</a>
-            <a href="#" class="btn btn-info">Voir commentaire publiées</a>
-            <a href="#" class="btn btn-warning">Voir utilisateur</a>
-            <a href="#" class="btn btn-danger">Statistique</a>
+            <a href="administrationarticle.html" class="btn btn-default">Voir articles publiées</a>
+            <a href="administrationcommentaire.html" class="btn btn-default">Voir commentaire publiées</a>
+            <a href="administrationuser.html" class="btn btn-default">Voir utilisateur</a>
+            <button class="btn btn-default" data-toggle="modal" data-target="#myModalEdit" data-bind="click: stat"/>Statistique</button>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Voir</h4>
+                </div>
+                <div class="modal-body" id="modal-article">
+                </div>
+                <div class="modal-footer" id="modal-footer">
+
+
+                </div>
+            </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Statistique</h4>
+                </div>
+                <div class="modal-body" id="modal-articleEdit">
+
+                </div>
+                <div class="modal-footer">
 
 
-        <div >  
-            <table  class="table table-striped">  
+                </div>
+            </div>
+        </div>
+    </div>   
+
+    <div >  
+        <table  class="table table-striped">  
+            <tr>  
+                <th>Utilisateur</th>  
+                <th>Nom</th> 
+                <th>Prénom</th>
+                <th>Action</th>
+
+            </tr>  
+            <tbody data-bind="foreach: utilisateurs">  
                 <tr>  
-                    <th>Utilisateur</th>  
-                    <th>Nom</th> 
-                    <th>Prénom</th>
-                    <th>Action</th>
-                
+                    <td>
+                        <label class="col-md-4 control-label" data-bind='text: login' > </label>
+                    </td>
+                    <td>
+                        <label class="col-md-4 control-label" data-bind='text: nom' />
+                    </td>
+                    <td >
+                        <label class="col-md-4 control-label" data-bind='text: prenom' />  
+                    </td>
+
+                    <td>
+                        <button class="btn btn-danger" data-bind="click: activateusr">Activé</button>  
+                        <button class="btn btn-danger" data-bind="click: disabledusr">Désactivé</button>  
+                    </td>
+
+
+
+
                 </tr>  
-                <tbody data-bind="foreach: utilisateurs">  
-                    <tr>  
-                        <td>
-                            <label class="col-md-4 control-label" data-bind='text: login' > </label>
-                        </td>
-                        <td>
-                            <label class="col-md-4 control-label" data-bind='text: nom' />
-                        </td>
-                        <td >
-                            <label class="col-md-4 control-label" data-bind='text: prenom' />  
-                        </td>
+            </tbody>    
 
-                        <td>
-                             <button class="btn btn-danger" data-bind="click: activate">Activé</button>  
-                             <button class="btn btn-danger" data-bind="click: disabled">Désactivé</button>  
-                        </td>
-                       
-                      
-                   
-                        
-                    </tr>  
-                </tbody>    
+        </table>  
+    </div>  
 
-            </table>  
-        </div>  
-
-    </body>
+</body>
 </html>
